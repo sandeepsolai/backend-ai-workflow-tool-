@@ -1,4 +1,4 @@
-// src/api/models/email.model.ts
+
 import mongoose, { Document, Schema } from 'mongoose';
 
 export interface IEmail extends Document {
@@ -16,9 +16,9 @@ export interface IEmail extends Document {
   aiProposedDate: { type: String, default: null },
   aiProposedTime: { type: String, default: null },
 
-  threadId: string; // <-- ADD THIS
-  messageIdHeader: string; // <-- ADD THIS
-  referencesHeader?: string; // <-- ADD THIS
+  threadId: string; 
+  messageIdHeader: string; 
+  referencesHeader?: string; 
 }
 
 const EmailSchema: Schema = new Schema({
@@ -33,8 +33,8 @@ const EmailSchema: Schema = new Schema({
   aiSummary: { type: String },
   aiSuggestion: { type: String },
   isMeetingRequest: { type: Boolean, default: false },
-  threadId: { type: String, required: true }, // <-- ADD THIS
-  messageIdHeader: { type: String, required: true }, // <-- ADD THIS
+  threadId: { type: String, required: true }, 
+  messageIdHeader: { type: String, required: true }, 
   referencesHeader: { type: String },
 }, { timestamps: true });
 

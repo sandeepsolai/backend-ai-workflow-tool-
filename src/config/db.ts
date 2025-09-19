@@ -1,4 +1,4 @@
-// src/config/db.ts
+
 import mongoose from 'mongoose';
 import config from './index';
 

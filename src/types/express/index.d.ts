@@ -1,4 +1,4 @@
-// src/types/express/index.d.ts
+
 import { IUser } from '../../api/models/user.model';
 
 declare global {

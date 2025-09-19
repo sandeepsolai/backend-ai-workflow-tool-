@@ -109,14 +109,6 @@ router.get('/', async (req: Request, res: Response) => {
             ${JSON.stringify(emailsForAI)}
             `;
 
-
-
-
-
-
-
-
-
                     const result = await model.generateContent(batchPrompt);
                     const aiResponseText = result.response.text();
                     const analyses: any[] = JSON.parse(aiResponseText.replace(/```json|```/g, '').trim());
