@@ -14,7 +14,7 @@ const getEnvVar = (name: string): string => {
 };
 
 const config = {
-  port: ENV.PORT || '5000',
+  port: ENV.PORT,
   mongoURI: getEnvVar('MONGO_URI'),
   google: {
     clientId: getEnvVar('GOOGLE_CLIENT_ID'),

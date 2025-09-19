@@ -2,7 +2,6 @@
 import express from 'express';
 import cors from 'cors';
 import passport from 'passport';
-
 import config from './config/index';
 import connectDB from './config/db';
 import { configurePassport } from './config/passport';
