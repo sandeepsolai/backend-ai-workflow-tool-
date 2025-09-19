@@ -43,7 +43,7 @@ backend/
 │ ├── config/ # Environment & server configurations
 │ ├── types/ # TypeScript types & interfaces
 │ ├── utils/ # Reusable helpers & utilities
-│ └── index.ts # Server entry point
+│ └── server.ts # Server entry point
 │
 │── package.json
 │── tsconfig.json
