@@ -10,7 +10,7 @@
     
 
     /* Strictness */
-    "strict": true,
+    "strict": false,
     "noUncheckedIndexedAccess": true,
 
     /* Module Resolution */
