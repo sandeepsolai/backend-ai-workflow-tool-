@@ -6,7 +6,7 @@ import { IUser } from '../models/user.model';
 import config from '../../config/index';
 
 const router = Router();
-const CLIENT_URL = process.env.CLIENT_URL || 'http://http://localhost:5173';
+const CLIENT_URL = process.env.CLIENT_URL || 'frontend-ai-workflow-tool.vercel.app';
 
 router.get(
   '/google',
