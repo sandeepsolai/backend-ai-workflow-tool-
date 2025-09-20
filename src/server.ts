@@ -12,7 +12,7 @@ connectDB();
 configurePassport();
 
 const app = express();
-const PORT = config.port;
+const PORT = process.env.PORT || config.port;
 
 app.use(cors());
 app.use(express.json());
