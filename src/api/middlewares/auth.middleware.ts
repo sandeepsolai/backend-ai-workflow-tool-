@@ -11,13 +11,19 @@ interface JwtPayload {
 }
 
 export const protect = async (req: Request, res: Response, next: NextFunction) => {
+  const jwtSecret = config.jwtSecret;
+  if (!jwtSecret) {
+    console.error('FATAL ERROR: JWT_SECRET is not defined in environment variables.');
+    return res.status(500).json({ message: 'Internal server error: Missing JWT secret' });
+  }
+  
   if (!req.headers.authorization || !req.headers.authorization.startsWith('Bearer')) {
     return res.status(401).json({ message: 'Not authorized, no token' });
   }
 
   try {
     const token = req.headers.authorization.split(' ')[1];
-    const decoded = jwt.verify(token, config.jwtSecret);
+    const decoded = jwt.verify(token, jwtSecret);
 
     if (typeof decoded !== 'object' || decoded === null || !('id' in decoded)) {
       return res.status(401).json({ message: 'Not authorized, token payload is invalid' });
