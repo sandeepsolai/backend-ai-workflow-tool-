@@ -6,7 +6,7 @@ import { IUser } from '../models/user.model';
 import config from '../../config/index';
 
 const router = Router();
-const CLIENT_URL = process.env.CLIENT_URL || 'http://localhost:5173';
+const CLIENT_URL = process.env.CLIENT_URL || 'http://frontend-ai-workflow-tool.vercel.app:5173';
 
 router.get(
   '/google',
@@ -26,7 +26,7 @@ router.get(
 router.get(
   '/google/callback',
   passport.authenticate('google', {
-    failureRedirect: 'http://localhost:5173/login?error=true',
+    failureRedirect: 'http://frontend-ai-workflow-tool.vercel.app:5173/login?error=true',
     session: false,
   }),
   (req, res) => {
@@ -38,7 +38,7 @@ router.get(
     const name = encodeURIComponent(user.displayName);
     const email = encodeURIComponent(user.email);
     
-    res.redirect(`http://localhost:5173/dashboard?token=${token}&name=${name}&email=${email}`);
+    res.redirect(`http://frontend-ai-workflow-tool.vercel.app:5173/dashboard?token=${token}&name=${name}&email=${email}`);
   }
 );
 
