@@ -21,7 +21,7 @@ export const protect = async (req: Request, res: Response, next: NextFunction) =
     if (!tokenSecret) {
       throw new Error('JWT Secret is not defined.');
     }
-    const decoded = jwt.verify(token, config.jwtSecret as string);
+    const decoded = jwt.verify(token, config.jwtSecret);
 
     if (typeof decoded !== 'object' || decoded === null || !('id' in decoded)) {
       return res.status(401).json({ message: 'Not authorized, token payload is invalid' });
