@@ -5,7 +5,7 @@ import { generateToken } from '../../utils/jwt';
 import { IUser } from '../models/user.model';
 
 const router = Router();
-
+const CLIENT_URL = process.env.CLIENT_URL || 'http://localhost:5173';
 router.get(
   '/google',
   passport.authenticate('google', { 
