@@ -10,7 +10,7 @@ export const configurePassport = () => {
       {
         clientID: config.google.clientId,
         clientSecret: config.google.clientSecret,
-        callbackURL: '/api/auth/google/callback',
+        callbackURL: 'https://backend-ai-workflow-tool.onrender.com/api/auth/google/callback',
       },
       async (accessToken: string, refreshToken: string | undefined, profile: Profile, done: VerifyCallback) => {
         try {
