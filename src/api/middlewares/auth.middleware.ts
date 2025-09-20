@@ -1,7 +1,7 @@
 
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
-import User from '../models/user.model';
+import { User } from '../models/user.model';
 import config from '../../config/index';
 
 // We no longer need to export IAuthRequest as it's causing conflicts
@@ -25,7 +25,7 @@ export const protect = async (req: Request, res: Response, next: NextFunction) =
     
     const typedDecoded = decoded as JwtPayload;
     
-    const user = await User.findById(typedDecoded.id).select('-password');
+    const user = await User.findById(typedDecoded.id);
 
     if (!user) {
       return res.status(401).json({ message: 'Not authorized, user not found' });
