@@ -1,10 +1,7 @@
-
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import { User } from '../models/user.model';
-const JWT_SECRET = process.env.JWT_SECRET;
-
-// We no longer need to export IAuthRequest as it's causing conflicts
+import config from '../../config/index';
 
 interface JwtPayload {
   id: string;
@@ -12,18 +9,22 @@ interface JwtPayload {
 
 export const protect = async (req: Request, res: Response, next: NextFunction) => {
   
-  if (!jwtSecret) {
+  const tokenSecret = config.jwtSecret;
+  if (!tokenSecret) {
     console.error('FATAL ERROR: JWT_SECRET is not defined in environment variables.');
-    return res.status(500).json({ message: 'Internal server error: Missing JWT secret' });
+    return res.status(500).json({ message: 'Internal server error: Missing application secret' });
   }
-  
+
   if (!req.headers.authorization || !req.headers.authorization.startsWith('Bearer')) {
     return res.status(401).json({ message: 'Not authorized, no token' });
   }
 
   try {
     const token = req.headers.authorization.split(' ')[1];
-    const decoded = jwt.verify(token, jwtSecret);
+    
+    // 2. Use the 'tokenSecret' constant. TypeScript now knows for a fact
+    //    that this is a string because of the check above. This resolves the error.
+    const decoded = jwt.verify(token, tokenSecret);
 
     if (typeof decoded !== 'object' || decoded === null || !('id' in decoded)) {
       return res.status(401).json({ message: 'Not authorized, token payload is invalid' });
@@ -31,18 +32,16 @@ export const protect = async (req: Request, res: Response, next: NextFunction) =
     
     const typedDecoded = decoded as JwtPayload;
     
-    const user = await User.findById(typedDecoded.id);
+    const user = await User.findById(typedDecoded.id); 
 
     if (!user) {
       return res.status(401).json({ message: 'Not authorized, user not found' });
     }
 
-    // This is the forceful override. We are attaching the user using 'any'.
     (req as any).user = user;
-
     next();
   } catch (error) {
-    console.error(error);
+    console.error('Token verification failed:', error);
     return res.status(401).json({ message: 'Not authorized, token failed' });
   }
 };
