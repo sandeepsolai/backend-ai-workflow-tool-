@@ -2,7 +2,7 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import { User } from '../models/user.model';
-import config from '../../config/index';
+const JWT_SECRET = process.env.JWT_SECRET;
 
 // We no longer need to export IAuthRequest as it's causing conflicts
 
@@ -11,7 +11,7 @@ interface JwtPayload {
 }
 
 export const protect = async (req: Request, res: Response, next: NextFunction) => {
-  const jwtSecret = config.jwtSecret;
+  
   if (!jwtSecret) {
     console.error('FATAL ERROR: JWT_SECRET is not defined in environment variables.');
     return res.status(500).json({ message: 'Internal server error: Missing JWT secret' });
