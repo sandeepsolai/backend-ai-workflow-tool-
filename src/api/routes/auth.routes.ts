@@ -3,9 +3,11 @@ import { Router } from 'express';
 import passport from 'passport';
 import { generateToken } from '../../utils/jwt';
 import { IUser } from '../models/user.model';
+import config from '../../config/index';
 
 const router = Router();
 const CLIENT_URL = process.env.CLIENT_URL || 'http://localhost:5173';
+
 router.get(
   '/google',
   passport.authenticate('google', { 
