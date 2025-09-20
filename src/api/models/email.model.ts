@@ -33,6 +33,8 @@ const EmailSchema: Schema = new Schema({
   aiSummary: { type: String },
   aiSuggestion: { type: String },
   isMeetingRequest: { type: Boolean, default: false },
+  aiProposedDate: { type: String, default: null },
+  aiProposedTime: { type: String, default: null },
   threadId: { type: String, required: true }, 
   messageIdHeader: { type: String, required: true }, 
   referencesHeader: { type: String },
