@@ -8,13 +8,6 @@ interface JwtPayload {
 }
 
 export const protect = async (req: Request, res: Response, next: NextFunction) => {
-  
-  const tokenSecret = config.jwtSecret;
-  if (!tokenSecret) {
-    console.error('FATAL ERROR: JWT_SECRET is not defined in environment variables.');
-    return res.status(500).json({ message: 'Internal server error: Missing application secret' });
-  }
-
   if (!req.headers.authorization || !req.headers.authorization.startsWith('Bearer')) {
     return res.status(401).json({ message: 'Not authorized, no token' });
   }
@@ -24,7 +17,7 @@ export const protect = async (req: Request, res: Response, next: NextFunction) =
     
     // 2. Use the 'tokenSecret' constant. TypeScript now knows for a fact
     //    that this is a string because of the check above. This resolves the error.
-    const decoded = jwt.verify(token, tokenSecret);
+    const decoded = jwt.verify(token, config.jwtSecret as string);
 
     if (typeof decoded !== 'object' || decoded === null || !('id' in decoded)) {
       return res.status(401).json({ message: 'Not authorized, token payload is invalid' });
