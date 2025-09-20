@@ -17,6 +17,10 @@ export const protect = async (req: Request, res: Response, next: NextFunction) =
     
     // 2. Use the 'tokenSecret' constant. TypeScript now knows for a fact
     //    that this is a string because of the check above. This resolves the error.
+    const tokenSecret = config.jwtSecret;
+    if (!tokenSecret) {
+      throw new Error('JWT Secret is not defined.');
+    }
     const decoded = jwt.verify(token, config.jwtSecret as string);
 
     if (typeof decoded !== 'object' || decoded === null || !('id' in decoded)) {
