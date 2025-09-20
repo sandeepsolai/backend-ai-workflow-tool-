@@ -7,7 +7,7 @@
     "allowJs": true,
     "resolveJsonModule": true,
     "moduleDetection": "force",
-    "ignoreDeprecations": "6.0",
+    
 
     /* Strictness */
     "strict": true,
