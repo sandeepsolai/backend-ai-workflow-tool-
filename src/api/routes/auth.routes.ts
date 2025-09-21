@@ -1,12 +1,12 @@
 // src/api/routes/auth.routes.ts
+
 import { Router } from 'express';
 import passport from 'passport';
 import { generateToken } from '../../utils/jwt';
 import { IUser } from '../models/user.model';
-import config from '../../config/index';
+import config from '../../config/index'; // We will ONLY use this for configuration
 
 const router = Router();
-const CLIENT_URL = process.env.CLIENT_URL || 'frontend-ai-workflow-tool.vercel.app';
 
 router.get(
   '/google',
@@ -26,6 +26,7 @@ router.get(
 router.get(
   '/google/callback',
   passport.authenticate('google', {
+    // This now correctly uses your main config file
     failureRedirect: `${config.clientURL}/login?error=true`,
     session: false,
   }),
@@ -33,11 +34,10 @@ router.get(
     const user = req.user as IUser;
     const token = generateToken(user);
     
-    // THE ONLY CHANGE IS HERE: We now send the name and email in the URL
-    // We use encodeURIComponent to safely handle special characters
     const name = encodeURIComponent(user.displayName);
     const email = encodeURIComponent(user.email);
     
+    // This also correctly uses your main config file
     res.redirect(`${config.clientURL}/dashboard?token=${token}&name=${name}&email=${email}`);
   }
 );
