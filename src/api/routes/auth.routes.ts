@@ -27,7 +27,7 @@ router.get(
   '/google/callback',
   passport.authenticate('google', {
     // This now correctly uses your main config file
-    failureRedirect: `${config.clientURL}/login?error=true`,
+    failureRedirect: `https://frontend-ai-workflow-tool.vercel.app/login?error=true`,
     session: false,
   }),
   (req, res) => {
