@@ -1,10 +1,8 @@
-// src/api/routes/auth.routes.ts
-
 import { Router } from 'express';
 import passport from 'passport';
 import { generateToken } from '../../utils/jwt';
 import { IUser } from '../models/user.model';
-import config from '../../config/index'; // We will ONLY use this for configuration
+import config from '../../config/index';
 
 const router = Router();
 
@@ -26,8 +24,8 @@ router.get(
 router.get(
   '/google/callback',
   passport.authenticate('google', {
-    // This now correctly uses your main config file
-    failureRedirect: `https://frontend-ai-workflow-tool.vercel.app/login?error=true`,
+    // FIX: Use the clientURL from the main config file
+    failureRedirect: `${config.clientURL}/login?error=true`,
     session: false,
   }),
   (req, res) => {
@@ -37,7 +35,7 @@ router.get(
     const name = encodeURIComponent(user.displayName);
     const email = encodeURIComponent(user.email);
     
-    // This also correctly uses your main config file
+    // This part is already correct
     res.redirect(`${config.clientURL}/dashboard?token=${token}&name=${name}&email=${email}`);
   }
 );
