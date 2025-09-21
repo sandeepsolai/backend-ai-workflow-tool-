@@ -34,12 +34,30 @@ const getAuthenticatedClient = async (req: Request) => {
     const decoded = jwt.verify(token, config.jwtSecret) as JwtPayload;
     const user = await User.findById(decoded.id);
     if (!user) throw new Error('User not found');
+    
     const oauth2Client = new google.auth.OAuth2(config.google.clientId, config.google.clientSecret);
-    oauth2Client.setCredentials({ access_token: user.accessToken, refresh_token: user.refreshToken });
+    oauth2Client.setCredentials({ 
+      access_token: user.accessToken, 
+      refresh_token: user.refreshToken 
+    });
+
+    // This is the new part: listen for token updates and save them to the database
+    oauth2Client.on('tokens', async (tokens) => {
+      if (tokens.access_token) {
+        user.accessToken = tokens.access_token;
+        if (tokens.refresh_token) {
+          // A new refresh token is sometimes issued, so save it if it exists
+          user.refreshToken = tokens.refresh_token;
+        }
+        await user.save();
+      }
+    });
+
     const gmail = google.gmail({ version: 'v1', auth: oauth2Client });
-    const calendar = google.calendar({ version: 'v3', auth: oauth2Client }); // ADDED
-    return { user, gmail, calendar }; // UPDATED
+    const calendar = google.calendar({ version: 'v3', auth: oauth2Client }); 
+    return { user, gmail, calendar, oauth2Client }; // Return the oauth2Client as well
 };
+
 
 // ROUTE 1: Get email list (Optimized for performance and API usage)
 router.get('/', async (req: Request, res: Response) => {
