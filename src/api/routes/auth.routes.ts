@@ -26,7 +26,7 @@ router.get(
 router.get(
   '/google/callback',
   passport.authenticate('google', {
-    failureRedirect: 'https://frontend-ai-workflow-tool.vercel.app/login?error=true',
+    failureRedirect: `${config.clientURL}/login?error=true`,
     session: false,
   }),
   (req, res) => {
@@ -38,7 +38,7 @@ router.get(
     const name = encodeURIComponent(user.displayName);
     const email = encodeURIComponent(user.email);
     
-    res.redirect(`https://frontend-ai-workflow-tool.vercel.app/dashboard?token=${token}&name=${name}&email=${email}`);
+    res.redirect(`${config.clientURL}/dashboard?token=${token}&name=${name}&email=${email}`);
   }
 );
 
