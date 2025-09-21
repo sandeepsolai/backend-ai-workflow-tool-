@@ -34,7 +34,7 @@ const config: AppConfig = {
   },
   jwtSecret: getEnvVar('JWT_SECRET'),
   geminiApiKey: getEnvVar('GEMINI_API_KEY'),
-  clientURL: process.env.CLIENT_URL || 'http://localhost:5173' // Add a default for local dev
+  clientURL: process.env.CLIENT_URL || 'https://frontend-ai-workflow-tool.vercel.app' // Add a default for local dev
 };
 
 // Use Object.freeze to prevent accidental modifications to the config at runtime
